@@ -19,7 +19,7 @@ book/chapter headings, etc.
 #### Considerations
 
 - This relies on JavaScript to parse and render content on page load.
-- This loads MathJax the MathJax JavaScript from an external CDN (jsdelivr.net) server.
+- This loads the MathJax JavaScript from an external CDN (jsdelivr.net) server.
 - Math rendering may not work in all areas of the application, notedly:
   - No rendering in the Markdown live preview.
   - No rendering in many export formats, including PDF.
