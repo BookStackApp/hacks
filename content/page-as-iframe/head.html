@@ -1,0 +1,26 @@
+<script>
+    var query = new URLSearchParams(location.search);
+    document.documentElement.classList.toggle('dark-mode', query.get('theme') == 'dark');
+    document.documentElement.classList.toggle('in-iframe', query.get('iframe') == 'true');
+    document.documentElement.classList.toggle('logged-out', localStorage.length === 0);
+    document.documentElement.classList.toggle('logged-in', localStorage.length > 0);
+</script>
+<style>
+    .in-iframe #header,
+    .in-iframe #sidebar,
+    .in-iframe #content .button,
+    .in-iframe .tri-layout-right,
+    .in-iframe .grid.third.gap-xxl,
+    .in-iframe .comments-container,
+    .in-iframe #main-content > .mb-m,
+    .in-iframe .tri-layout-mobile-tabs
+    {
+        display: none
+    }
+    .in-iframe .content-wrap.card
+    {
+        margin: 0;
+        border: none;
+        box-shadow: none;
+    }
+</style>
