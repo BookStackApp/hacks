@@ -1,8 +1,8 @@
 +++
 title = "Custom WYSIWYG Editor Buttons"
 author = "@ssddanbrown"
-date = 2023-02-24T00:00:00Z
-updated = 2023-02-24T00:00:00Z
+date = 2023-03-24T00:00:00Z
+updated = 2023-03-24T00:00:00Z
 tested = "v23.02"
 +++
 
