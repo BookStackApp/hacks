@@ -1,0 +1,44 @@
+<script>
+    // Listen to the BookStack pre-init TinyMCE editor event to tweak the TinyMCE config.
+    window.addEventListener('editor-tinymce::pre-init', event => {
+        // Gain a reference to the config object that will be used for TinyMCE.
+        const mceConfig = event.detail.config;
+
+        // Here we tweak the main toolbar, which is a long string of toolbar buttons or groups.
+        // In this example, we add a custom dropdown section as defined below.
+        mceConfig.toolbar += ' custom-actions'
+    });
+
+    // Listen to the BookStack setup TinyMCE editor event to run custom actions against the editor instance.
+    window.addEventListener('editor-tinymce::setup', event => {
+        // Gain a reference to the TinyMCE editor instance.
+        const editor = event.detail.editor;
+
+        // Define our custom button
+        editor.ui.registry.addButton('insertcat', {
+            tooltip: 'Insert Cat',
+            // Reference to icon we created below.
+            // Alternatively you could use one of the built-in icons here:
+            // https://www.tiny.cloud/docs/advanced/editor-icon-identifiers/
+            // Or use a `text: "label"` property instead.
+            icon: 'insertcaticon',
+            onAction() {
+                // The action to run when clicked.
+                // Here we add a placeholder kitty cat HTML image to the editor.
+                editor.insertContent('<img src="http://placekitten.com/g/200/300" alt="Kitty cat"/>')
+            }
+        });
+
+        // Define a custom button group, which is used for dropdowns containing more buttons.
+        // This is redundant for just one action, we could use our "insertcat" button directly
+        // in the toolbar config, but this is here as an example of a more complex scenario.
+        editor.ui.registry.addGroupToolbarButton('custom-actions', {
+            icon: 'more-drawer',
+            tooltip: 'More',
+            items: 'insertcat' // Space-separated list of buttons to show in this group.
+        });
+
+        // Register a custom cat svg icon
+        editor.ui.registry.addIcon('insertcaticon', `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 72 72" fill="currentColor"><path d="M13.622 14.093c-.61-.007-1.013.055-1.15.2-.984 1.041 3.094 15.61 5.738 21.974a29.714 29.714 0 0 0-1.332 8.794 29.714 29.714 0 0 0 29.714 29.714 29.714 29.714 0 0 0 29.715-29.714 29.714 29.714 0 0 0-1.158-8.21c2.646-6.49 6.603-20.69 5.633-21.718-.886-.937-12.948 1.595-20.093 3.772a29.714 29.714 0 0 0-14.097-3.558 29.714 29.714 0 0 0-13.048 3.024c-5.932-1.906-16.39-4.24-19.922-4.278Zm6.678 6.139c2.817.03 11.16 1.892 15.891 3.412a23.703 23.703 0 0 1 10.408-2.413 23.703 23.703 0 0 1 11.245 2.839c5.7-1.736 15.321-3.756 16.027-3.009.775.82-2.382 12.147-4.493 17.324a23.703 23.703 0 0 1 .924 6.549A23.703 23.703 0 0 1 46.6 68.637a23.703 23.703 0 0 1-23.702-23.703 23.703 23.703 0 0 1 1.063-7.015c-2.11-5.076-5.362-16.697-4.578-17.528.11-.115.431-.165.918-.16z" transform="translate(-10.627 -8.434)"/></svg>`)
+    });
+</script>
