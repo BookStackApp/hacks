@@ -2,8 +2,6 @@
     var query = new URLSearchParams(location.search);
     document.documentElement.classList.toggle('dark-mode', query.get('theme') == 'dark');
     document.documentElement.classList.toggle('in-iframe', query.get('iframe') == 'true');
-    document.documentElement.classList.toggle('logged-out', localStorage.length === 0);
-    document.documentElement.classList.toggle('logged-in', localStorage.length > 0);
 </script>
 <style>
     .in-iframe #header,
