@@ -1,25 +1,26 @@
 +++
-title = "WYSIWYG Editor Autocompleter"
+title = "WYSIWYG Editor Autocomplete Suggestions"
 author = "@razem-io"
-date = 2023-05-04T23:00:00Z
-updated = 2023-05-04T23:00:00Z
-tested = "v23.02"
+date = 2023-05-04T16:00:00Z
+updated = 2023-05-04T16:00:00Z
+tested = "v23.05"
 +++
 
-This hack adds custom autocompleter support to the WYSIWYG page editor (TinyMCE). An autocompleter displays suggestions while the user is typing. Suggestions are shown when the trigger character is entered after a space or at the start of a new line (such as ' :'). Pressing the Escape key will close the autocompleter.
+This hack adds custom autocomplete suggestions to the WYSIWYG page editor (TinyMCE). An autocomplete popup box will show after a "trigger character" (`:` as configured by default in this hack) is entered after a space, or at the start of a line. Pressing the Escape key will close the autocompleter.
 
-This hack provides significant examples of TinyMCE (The library used for the WYSIWYG) content manipulation and extension.
+By default, two autocomplete options are configured: `Cat 1` and `Cat 2`.
+Entering `:c` within the editor will show the autocomplete containing these two options.
+These options can be configured from line 21 in the code.
+
+This hack serves as a good example of registering autocomplete options with TinyMCE (The library used for the WYSIWYG).
 The code is heavily commented to assist as a helpful example.
-For significant alterations, you'll likely want to review the [TinyMCE documentation](https://www.tiny.cloud/docs/tinymce/6/autocompleter/)
-to understand the full set of available capabilities and actions within the TinyMCE editor API.
+You may want to review the [TinyMCE Autocompleter documentation](https://www.tiny.cloud/docs/tinymce/6/autocompleter/)
+to understand the full set of capabilities and options available.
 
 #### Considerations
 
 - This heavily relies on internal methods of TinyMCE, which may change upon any BookStack release as we update the editor libraries.
-- All logic is within the WYSIWYG editor, and therefore you won't get the same functionality via the API or other editors.
-- The syntax & code used likely won't be cross-compatible with the markdown editor.
-- This has been tested to some degree but there's a reasonable chance of bugs or side affects, since there's quite a lot going on here.
-- There's a lot of custom code here. You could instead put this code (without the HTML `<script>` tags) in an external JavaScript file and then just use a single `<script src="/path/to/file.js"></script>` within the custom head setting.
+- All logic is within the WYSIWYG editor, and therefore you won't get the same functionality via other editors.
 
 #### Code
 
