@@ -1,0 +1,50 @@
+<script>
+    // Listen to the BookStack setup TinyMCE editor event to run custom actions against the editor instance
+    window.addEventListener('editor-tinymce::setup', event => {
+        // Gain a reference to the TinyMCE editor instance
+        const editor = event.detail.editor;
+
+        // Register a custom cat svg icon
+        editor.ui.registry.addIcon('insertcaticon', `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 72 72" fill="currentColor"><path d="M13.622 14.093c-.61-.007-1.013.055-1.15.2-.984 1.041 3.094 15.61 5.738 21.974a29.714 29.714 0 0 0-1.332 8.794 29.714 29.714 0 0 0 29.714 29.714 29.714 29.714 0 0 0 29.715-29.714 29.714 29.714 0 0 0-1.158-8.21c2.646-6.49 6.603-20.69 5.633-21.718-.886-.937-12.948 1.595-20.093 3.772a29.714 29.714 0 0 0-14.097-3.558 29.714 29.714 0 0 0-13.048 3.024c-5.932-1.906-16.39-4.24-19.922-4.278Zm6.678 6.139c2.817.03 11.16 1.892 15.891 3.412a23.703 23.703 0 0 1 10.408-2.413 23.703 23.703 0 0 1 11.245 2.839c5.7-1.736 15.321-3.756 16.027-3.009.775.82-2.382 12.147-4.493 17.324a23.703 23.703 0 0 1 .924 6.549A23.703 23.703 0 0 1 46.6 68.637a23.703 23.703 0 0 1-23.702-23.703 23.703 23.703 0 0 1 1.063-7.015c-2.11-5.076-5.362-16.697-4.578-17.528.11-.115.431-.165.918-.16z" transform="translate(-10.627 -8.434)"/></svg>`);
+
+        // Register a custom autocompleter
+        editor.ui.registry.addAutocompleter('autocompleter-cat', {
+            ch: ':', // The trigger character to open the autocompleter
+            minChars: 1, // Number of entered characters to wait for before searching
+            columns: 1, // Result columns, generally will be 1 for text-based results
+            fetch: function (pattern, maxResults, fetchOptions) {
+                // This function is called when the autocompleter gets triggered, which gets passed 
+                // the current matched text pattern, the maximum number of expected results and 
+                // any additional fetch options. 
+                // The function should return a Promise containing matching results.
+
+                return Promise.resolve(
+                    [
+                        {
+                            type: 'autocompleteitem',
+                            value: '<p><strong> Hello Cat 1! </strong></p>',
+                            text: 'Cat 1',
+                            icon: 'insertcaticon'
+                        },
+                        {
+                            type: 'autocompleteitem',
+                            value: '<p><strong> Hello Cat 2! </strong></p>',
+                            text: 'Cat 2',
+                            icon: 'insertcaticon'
+                        }
+                    ]
+                );
+            },
+            onAction: function (autocompleteApi, rng, value) {
+                // This function is called when an item from the list is selected
+
+                // Insert the selected item's value (HTML) into the editor
+                editor.selection.setRng(rng);
+                editor.insertContent(value);
+            
+                // Hide the autocomplete UI
+                autocompleteApi.hide();
+            }
+        });
+    });
+</script>
