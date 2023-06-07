@@ -1,0 +1,40 @@
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.5.1/mammoth.browser.min.js" defer></script>
+
+<script type="module">
+    // Convert the given "file" instance to HTML and insert the results
+    // into the given TinyMCE "editor" instance.
+    function convertAndInsertDocx(editor, file) {
+        // Use a FileReader to handle conversion via an ArrayBuffer
+        const reader = new FileReader();
+        reader.onload = async function(loadEvent) {
+            // Get and convert the ArrayBuffer version of the file
+            const arrayBuffer = loadEvent.target.result;
+            const {value: html, messages} = await window.mammoth.convertToHtml({arrayBuffer});
+            // If warnings exists from conversion, log them to the browser console then
+            // show a warning alert via BookStack's event system.
+            if (messages.length > 0) {
+                console.error(messages);
+                window.$events.emit('warning', `${messages.length} warnings logged to browser console during conversion`);
+            }
+            // Insert the resulting HTML content insert the editor
+            editor.insertContent(html);
+        }
+        reader.readAsArrayBuffer(file);
+    }
+
+    // Listen to BookStack emmitted WYSWIYG editor setup event
+    window.addEventListener('editor-tinymce::setup', event => {
+        // Get a reference to the editor and listen to file "drop" events
+        const editor = event.detail.editor;
+        editor.on('drop', event => {
+            // For each of the files in the drop event, pass them, alonside the editor instance
+            // to our "convertAndInsertDocx" function above if they're docx files.
+            const files = event?.dataTransfer?.files || [];
+            for (const file of files) {
+                if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && window.mammoth) {
+                    convertAndInsertDocx(editor, file);
+                }
+            }
+        });
+    });
+</script>
