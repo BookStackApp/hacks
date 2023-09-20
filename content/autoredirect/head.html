@@ -1,0 +1,45 @@
+<script>
+    // Configurable parameter: redirection delay in milliseconds
+    var REDIRECTION_DELAY = 5000;
+
+    window.onload = function() {
+        // Find the first <a> element with the "redirect" class
+        var redirectLink = document.querySelector('a.redirect');
+
+        if (redirectLink) {
+            var originalHref = redirectLink.href;
+            var message = "";
+
+            // Get the language from the <html> tag's lang attribute
+            var language = document.documentElement.getAttribute('lang');
+
+            // Determine the message based on the specified language
+            switch (language) {
+                case 'fr-FR':
+                    message = `Vous allez être redirigé vers <a href="${originalHref}">${originalHref}</a> dans ${REDIRECTION_DELAY / 1000} secondes.<br>Si la redirection ne se produit pas, veuillez <a href="${originalHref}">cliquer ici</a>.`;
+                    break;
+                case 'es-ES':
+                    message = `Será redirigido a <a href="${originalHref}">${originalHref}</a> en ${REDIRECTION_DELAY / 1000} segundos.<br>Si la redirección no ocurre, por favor <a href="${originalHref}">haga clic aquí</a>.`;
+                    break;
+                // ... you can add more cases for other languages as needed
+                case 'en-US':
+                case 'en-GB':
+                default:
+                    message = `You will be redirected to <a href="${originalHref}">${originalHref}</a> in ${REDIRECTION_DELAY / 1000} seconds.<br>If the redirection does not occur, please <a href="${originalHref}">click here</a>.`;
+                    break;
+            }
+
+            // Create a new <p> element for the message
+            var paragraph = document.createElement('p');
+            paragraph.innerHTML = message;
+
+            // Replace the original <a> with the newly created <p> element
+            redirectLink.parentNode.replaceChild(paragraph, redirectLink);
+
+            // Redirect after the specified delay
+            setTimeout(function() {
+                window.location.href = originalHref;
+            }, REDIRECTION_DELAY);
+        }
+    };
+</script>
