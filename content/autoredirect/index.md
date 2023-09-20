@@ -10,7 +10,7 @@ This script offers an automatic redirection feature to a specific URL after a co
 
 You can use it by adding the "redirect" class to an anchor tag like so:
 ```html
-<a class="redirect" href="https://google.com">Example</a>
+<a class="redirect" href="https://google.com">Click here</a>
 ```
 
 The content of this tag will be altered by the script to show a redirection message. After the set delay, the user will be automatically taken to the specified URL, in this case, https://google.com
