@@ -3,6 +3,11 @@
 This repository contains the hacks that are shown on the [/hacks part of the website](https://www.bookstackapp.com/hacks/). This is not a website in itself,
 but it designed to be a submodule within the `hacks/` directory of the [BookStack website repo](https://github.com/BookStackApp/website).
 
+### Hack Update Service
+
+As a way to sustainably maintain hacks, a hack update service is advertised on hack pages which allows people to pay a one-off fee to request an update of a hack to work with the latest release of BookStack.
+This service is provided by [HTTP Functions Ltd](https://www.httpfunctions.com/).
+
 ### Support & Issues
 
 Hacks in this repo are unsupported, maybe become out-of-date and do not receive active maintenance unlike the core BookStack codebase. 
@@ -27,4 +32,4 @@ Contributions are welcome to this repository but the scope for additions will be
 
 Pull requests to update hacks for more recent compatibility are welcome, as long as they don't apply additional non-required changes.
 
-Contributions will become under the MIT license of the project. Note that I may in the future monetize the supply, updating and tweaking of hacks in this repo.
+Contributions will become under the MIT license of the project.
