@@ -1,13 +1,13 @@
 <?php
 
-use BookStack\Actions\ActivityType;
-use BookStack\Actions\Tag;
-use BookStack\Auth\Role;
-use BookStack\Auth\User;
+use BookStack\Activity\ActivityType;
+use BookStack\Activity\Models\Tag;
+use BookStack\Activity\Notifications\Messages\BaseActivityNotification;
 use BookStack\Entities\Models\Page;
 use BookStack\Facades\Theme;
-use BookStack\Notifications\MailNotification;
 use BookStack\Theming\ThemeEvents;
+use BookStack\Users\Models\Role;
+use BookStack\Users\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 
 // This customization notifies page updates to users within roles named via a tag  on a parent book.
@@ -20,23 +20,17 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 // This notification class represents the notification that'll be sent to users.
 // The text of the notification can be customized within the 'toMail' function.
-class PageUpdatedNotification extends MailNotification {
-
-    protected Page $page;
-    protected User $updater;
-
-    public function __construct(Page $page, User $updater)
+class PageUpdateNotification extends BaseActivityNotification {
+    public function toMail(User $notifiable): MailMessage
     {
-        $this->page = $page;
-        $this->updater = $updater;
-    }
+        /** @var Page $page */
+        $page = $this->detail;
+        $updater = $this->user;
 
-    public function toMail($notifiable)
-    {
         return (new MailMessage())
             ->subject('BookStack page update notification')
-            ->line("The page \"{$this->page->name}\" has been updated by \"{$this->updater->name}\"")
-            ->action('View Page', $this->page->getUrl());
+            ->line("The page \"{$page->name}\" has been updated by \"{$updater->name}\"")
+            ->action('View Page', $page->getUrl());
     }
 }
 
@@ -56,7 +50,7 @@ function notifyRequiredUsers(Page $page) {
     }
 
     // Get the roles named via the tag
-    $roleNames = array_filter(array_map(fn($str) => trim($str) , explode(',', $notifyTag->value)));
+    $roleNames = array_filter(array_map(fn ($str) => trim($str), explode(',', $notifyTag->value)));
     $roleIds = Role::query()->whereIn('display_name', $roleNames)->pluck('id');
     if (count($roleNames) === 0 || $roleIds->isEmpty()) {
         return;
@@ -64,11 +58,11 @@ function notifyRequiredUsers(Page $page) {
 
     // Get the users we want to notify, and the user that updated the page
     $usersToNotify = User::query()
-        ->whereExists(function($query) use ($roleIds) {
-             $query->select('user_id')
-                 ->from('role_user')
-                 ->whereColumn('users.id', '=', 'role_user.user_id')
-                 ->whereIn('role_id', $roleIds);
+        ->whereExists(function ($query) use ($roleIds) {
+            $query->select('user_id')
+                ->from('role_user')
+                ->whereColumn('users.id', '=', 'role_user.user_id')
+                ->whereIn('role_id', $roleIds);
         })
         ->where('id', '!=', $page->updated_by)
         ->get();
@@ -76,13 +70,13 @@ function notifyRequiredUsers(Page $page) {
 
     // Send a notification to each of the users we want to notify
     foreach ($usersToNotify as $user) {
-        $user->notify(new PageUpdatedNotification($page, $updater));
+        $user->notify(new PageUpdateNotification($page, $updater));
         usleep(100000); // Slight 0.1s delay to help rate limit abuse
     }
 }
 
 // Listen to page update events and kick-start our notification logic
-Theme::listen(ThemeEvents::ACTIVITY_LOGGED, function(string $type, $detail) {
+Theme::listen(ThemeEvents::ACTIVITY_LOGGED, function (string $type, $detail) {
     if ($type === ActivityType::PAGE_UPDATE && $detail instanceof Page) {
         notifyRequiredUsers($detail);
     }
