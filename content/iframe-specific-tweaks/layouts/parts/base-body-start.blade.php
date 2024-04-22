@@ -25,7 +25,7 @@
     </style>
 
     <!-- Add a script to control dark-mode via JavaScript -->
-    <!-- if there's also a 'theme' query paramter -->
+    <!-- if there's also a 'theme' query parameter -->
     @if(request()->query('theme'))
         <script nonce="{{ $cspNonce }}">
             // Use JavaScript to toggle the 'dark-mode' class on the HTML element to enable/disable

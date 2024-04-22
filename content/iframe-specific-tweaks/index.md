@@ -2,8 +2,8 @@
 title = "IFrame Specific Tweaks"
 author = "@vincent @ssddanbrown"
 date = 2023-03-20T00:00:00Z
-updated = 2023-03-27T00:00:00Z
-tested = "v23.02.2"
+updated = 2024-04-22T00:00:00Z
+tested = "v24.02.3"
 +++
 
 This hack will add custom styles & scripts, hiding many parts of the interface while adding additional light/dark mode control,
@@ -13,8 +13,8 @@ This can be useful if you use BookStack as a knowledge base, and you want to int
 
 #### Considerations
 
-- The forced dark/light mode control works via JavaScript, so will not run where a user has
-JavaScript disabled although this is relatively rare.
+- The forced dark/light mode control works via JavaScript, so will not run where a user has JavaScript disabled although this is relatively rare.
+- This specific example will only affect the loaded page view, not subsequent clicks to other parts of the application within the iframe.
 
 #### Usage
 
