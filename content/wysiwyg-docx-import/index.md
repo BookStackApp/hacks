@@ -3,7 +3,7 @@ title = "WYSIWYG Docx Import"
 author = "@ssddanbrown"
 date = 2023-06-07T09:00:00Z
 updated = 2023-06-07T09:00:00Z
-tested = "v23.05"
+tested = "v24.05.2"
 +++
 
 This hack adds the ability to import ".docx" files into the WYSIWYG editor,
