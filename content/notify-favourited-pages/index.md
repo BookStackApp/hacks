@@ -2,10 +2,9 @@
 title = "Notify Updates for Favourited pages"
 author = "@ssddanbrown"
 date = 2022-12-01T20:00:00Z
-updated = 2022-12-01T20:00:00Z
-tested = "v22.11"
+updated = 2024-07-05T14:00:00Z
+tested = "v24.05.2"
 +++
-
 
 This hack sends out page update notification emails to all users that have marked that page as a favourite.
 
@@ -16,7 +15,7 @@ This hack sends out page update notification emails to all users that have marke
 
 #### Options
 
-- You can customize the email message, if desired, by editing the lines of text within the toMail part at around lines 30-32 of the `functions.php` code.
+- You can customize the email message, if desired, by editing the lines of text within the toMail part at around lines 23-25 of the `functions.php` code.
 
 #### Code
 
