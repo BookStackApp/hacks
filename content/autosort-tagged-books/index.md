@@ -2,10 +2,9 @@
 title = "Autosort Tagged Books"
 author = "@ssddanbrown"
 date = 2023-01-23T20:00:00Z
-updated = 2023-01-23T20:00:00Z
-tested = "v22.11.1"
+updated = 2024-07-12T14:00:00Z
+tested = "v24.05.2"
 +++
-
 
 This is a hack to BookStack to enable auto-sorting of book chapters and pages upon page or chapter create/update. It sorts by name, ascending, with chapters first. By default it will run for any book with an `Autosort` tag assigned.
 

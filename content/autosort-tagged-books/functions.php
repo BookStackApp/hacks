@@ -1,6 +1,6 @@
 <?php
 
-use BookStack\Actions\ActivityType;
+use BookStack\Activity\ActivityType;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Page;
@@ -11,7 +11,7 @@ use BookStack\Theming\ThemeEvents;
  * Auto-sort the contents of the given book.
  * This sorts in name order, ascending, with chapters first.
  */
-function autoSortBook(Book $book) {
+function autoSortBook(Book $book): void {
     $chapters = $book->chapters()->orderBy('name', 'asc')->get(['id', 'priority']);
     $pages = $book->pages()->orderBy('name', 'asc')
         ->where('draft', '=', false)
@@ -51,5 +51,4 @@ Theme::listen(ThemeEvents::ACTIVITY_LOGGED, function (string $type, $detail) {
             autoSortBook($detail->book);
         }
     }
-
 });
